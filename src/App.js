@@ -7,13 +7,15 @@ import './App.css';
 const App = () => {
 
   const[searchField, setSearchField] = useState('');// gives us [value, setValue]
+  const [title, setTitle] = useState('');
   const [monsters, setMonsters] = useState([]);
   const[filteredMonsters, setFilterMonsters] = useState(monsters);
   const[stringField, setStringField] = useState('');
-    console.log('render');
+  
+  console.log('rendered');
 
   useEffect(()=>{
-    console.log('effect fired')
+    //console.log('effect fired')
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(response => response.json())
     .then((users)=> setMonsters(users)
@@ -25,13 +27,18 @@ const App = () => {
       return monster.name.toLocaleLowerCase().includes(searchField);
     });
     setFilterMonsters(newFilteredMonsters);
-    console.log('effect fired')
+    //console.log('effect fired')
   },[monsters, searchField])
 
 
 const onSearchChange = (event) => {
     const searchFieldString = event.target.value.toLocaleLowerCase();
     setSearchField(searchFieldString);
+  };
+
+const onTitleChange = (event) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setTitle(searchFieldString);
   };
 
 const onStringChange = (event) => {
@@ -41,12 +48,17 @@ const onStringChange = (event) => {
 
   return(
   <div className="App">
-  <h1 className="app-title">Monsters Rolodex</h1>
+  <h1 className="app-title">{title}</h1>
  
   <SearchBox 
   className = 'monsters-search-box'
   onChangeHandler = {onSearchChange} 
   placeholder = 'search monsters'/>
+  <br />
+<SearchBox 
+  className = 'title-search-box'
+  onChangeHandler = {onTitleChange} 
+  placeholder = 'set title'/>
 
   {/* <SearchBox 
   onChangeHandler = {onStringChange} 
